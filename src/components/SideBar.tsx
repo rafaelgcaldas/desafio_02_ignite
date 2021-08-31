@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { api } from "../services/api";
 import { Button } from "./Button";
 
 import '../styles/sidebar.scss';
+import { NavigationContext } from "../contexts/NavigationContext";
 
-interface GenreResponseProps {
+type GenreResponseProps = {
   id: number;
   name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
   title: string;
@@ -15,7 +16,7 @@ export function SideBar() {
   // Complete aqui
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
 
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
+  const {selectedGenreId, setSelectedGenreId} = useContext(NavigationContext);
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
