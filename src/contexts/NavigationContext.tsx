@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { api } from '../services/api';
 
-type MovieProps = {
+type MovieType = {
   imdbID: string;
   Title: string;
   Poster: string;
@@ -24,7 +24,7 @@ type NavigationContextProviderProps = {
 
 type NavigationContextType = {
   selectedGenreId: number;
-  movies: MovieProps[];
+  movies: MovieType[];
   selectedGenre: GenreResponseType;
   setSelectedGenreId: (id: number) => void;
 }
@@ -33,11 +33,11 @@ export const NavigationContext = createContext({} as NavigationContextType);
 
 export function NavigationContextProvider({ children }: NavigationContextProviderProps) {
   const [selectedGenreId, setSelectedGenreId] = useState(1);
-  const [movies, setMovies] = useState<MovieProps[]>([]);
+  const [movies, setMovies] = useState<MovieType[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseType>({} as GenreResponseType);
 
   useEffect(() => {
-    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
+    api.get<MovieType[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
       setMovies(response.data);
     });
 
