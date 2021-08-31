@@ -12,7 +12,7 @@ type MovieProps = {
   Runtime: string;
 }
 
-type GenreResponseProps = {
+type GenreResponseType = {
   id: number;
   name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
   title: string;
@@ -25,7 +25,7 @@ type NavigationContextProviderProps = {
 type NavigationContextType = {
   selectedGenreId: number;
   movies: MovieProps[];
-  selectedGenre: GenreResponseProps;
+  selectedGenre: GenreResponseType;
   setSelectedGenreId: (id: number) => void;
 }
 
@@ -34,14 +34,14 @@ export const NavigationContext = createContext({} as NavigationContextType);
 export function NavigationContextProvider({ children }: NavigationContextProviderProps) {
   const [selectedGenreId, setSelectedGenreId] = useState(1);
   const [movies, setMovies] = useState<MovieProps[]>([]);
-  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
+  const [selectedGenre, setSelectedGenre] = useState<GenreResponseType>({} as GenreResponseType);
 
   useEffect(() => {
     api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
       setMovies(response.data);
     });
 
-    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
+    api.get<GenreResponseType>(`genres/${selectedGenreId}`).then(response => {
       setSelectedGenre(response.data);
     })
   }, [selectedGenreId]);
