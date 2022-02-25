@@ -14,5 +14,10 @@ main {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 4.75rem;
     list-style: none;
+    
+    > div {
+      height: 350px !important;
+      width: 100% !important;
+    }
   }
 }
